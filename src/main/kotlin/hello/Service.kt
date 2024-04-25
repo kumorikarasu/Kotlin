@@ -1,18 +1,15 @@
-package api;
+package hello
 
 import java.util.Collections
 import jakarta.inject.Singleton
 import com.fasterxml.jackson.annotation.JsonProperty
 import io.micronaut.serde.annotation.Serdeable
-import Data
 
+import hello.Data
 
 @Singleton
 class HelloService {
-
-  companion object {
-    val data = mutableListOf<Data>()
-  }
+  val data = mutableListOf<Data>()
 
   fun getAll(): List<Data>{
     return data;

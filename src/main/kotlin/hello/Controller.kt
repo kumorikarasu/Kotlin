@@ -1,4 +1,4 @@
-package api
+package hello
 
 import io.micronaut.http.annotation.Controller
 import io.micronaut.http.annotation.Get
@@ -13,18 +13,15 @@ import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import com.fasterxml.jackson.annotation.JsonProperty
 import jakarta.inject.Inject
-import Data
+
+import hello.HelloService
+import hello.Data
 
 @Controller("/")
-class HelloController {
-
+class HelloController(val service: HelloService){
     companion object {
         @JvmField val LOG = LoggerFactory.getLogger(HelloController::class.java)
-
-        @Inject
-        val service = HelloService()
     }
-
     
     @Get("/")
     fun indexAll(): Map<String, List<Any>> {
@@ -36,27 +33,26 @@ class HelloController {
     fun index(id: Int): Map<String, Any?> {
         LOG.info("Get request for id: {}", id)
 
-        return Collections.singletonMap("hello", service.getOne(id))
+        return mapOf("hello" to service.getOne(id))
     }
 
     @Post("/")
     fun indexPost(@Body insert: Data): Map<String, Any> {
         LOG.info("Post request")
-        return Collections.singletonMap("hello", service.insert(insert));
+        return mapOf("hello" to service.insert(insert))
     }
 
     @Patch("/{id}")
     fun indexPatch(id: Int, @Body insert: Data): Map<String, Any?> {
         LOG.info("Patch request for id: {}", id)
 
-        return Collections.singletonMap("hello", service.update(id, insert))
+        return mapOf("hello" to service.update(id, insert))
     }
 
     @Delete("/{id}")
     fun indexDelete(id: Int): Map<String, Any?> {
         LOG.info("Delete request for id: {}", id)
 
-        return Collections.singletonMap("hello", service.delete(id));
+        return mapOf("hello" to service.delete(id))
     }
 }
-
