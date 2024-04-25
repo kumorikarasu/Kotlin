@@ -1,0 +1,10 @@
+#Wed Apr 24 13:07:50 EDT 2024
+micronaut:
+  server:
+    netty:
+      access-logger:
+        enabled: true
+        logger-name: logger
+        log-format: common
+  application:
+    name: api
