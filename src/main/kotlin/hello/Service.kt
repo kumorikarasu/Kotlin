@@ -1,39 +1,61 @@
-package hello
+package com.ryougi.hello
 
 import java.util.Collections
 import jakarta.inject.Singleton
+import jakarta.inject.Inject
 import com.fasterxml.jackson.annotation.JsonProperty
 import io.micronaut.serde.annotation.Serdeable
+import com.datastax.oss.driver.api.core.CqlSession
+import com.datastax.oss.driver.api.core.type.DataTypes
+import com.datastax.oss.driver.api.core.uuid.Uuids
+import com.datastax.oss.driver.api.querybuilder.SchemaBuilder
 
-import hello.Data
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory
+
+import com.ryougi.hello.Data
+
 
 @Singleton
-class HelloService {
-  val data = mutableListOf<Data>()
+class HelloService() {
+  companion object {
+      @JvmField val LOG = LoggerFactory.getLogger(HelloService::class.java)
+  }
+
+  @Inject lateinit var cqlSession: CqlSession
 
   fun getAll(): List<Data>{
+    // Get data from cassandra
+    val data = cqlSession.execute("SELECT * FROM hello").map { row ->
+      Data(row.getUuid("id"), row.getString("name")!!)
+    }.toList()
     return data;
   }
 
   fun getOne(id: Int): Data? {
-    return data.find { it.id == id }
+    val data =
+    cqlSession.execute("SELECT * FROM hello WHERE id = $id").map { row ->
+      Data(row.getUuid("id"), row.getString("name")!!)
+    }.firstOrNull()
+    return data
   }
 
   fun insert(insert: Data): Data {
-    data.add(Data(data.size + 1, insert.name))
-    return data.last()
+    val uuid = Uuids.random()
+    cqlSession.execute("INSERT INTO hello (id, name) VALUES (${uuid}, '${insert.name}')");
+    return Data(uuid, insert.name)
   }
 
   fun update(id: Int, insert: Data): Data? {
-    data.find { it.id == id }?.let {
-      data.set(data.indexOf(it), Data(it.id, insert.name))
-    }
+
+    LOG.info("UPDATE hello SET name = '${insert.name}' WHERE id=$id")
+    cqlSession.execute("UPDATE hello SET name = '${insert.name}' WHERE id=$id")
     return getOne(id)
   }
 
   fun delete(id: Int): Data? {
-    val obj = getOne(id)
-    data.removeIf { it.id == id }
-    return obj
+    var data = getOne(id)
+    cqlSession.execute("DELETE FROM hello WHERE id = ${id}")
+    return data
   }
 }

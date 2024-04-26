@@ -20,6 +20,9 @@ dependencies {
     ksp("io.micronaut.serde:micronaut-serde-processor")
     implementation("io.micronaut.kotlin:micronaut-kotlin-runtime")
     implementation("io.micronaut.serde:micronaut-serde-jackson")
+    implementation("com.datastax.oss:java-driver-core")
+    implementation("com.datastax.oss:java-driver-query-builder")
+    implementation("io.micronaut.cassandra:micronaut-cassandra")
     implementation("org.jetbrains.kotlin:kotlin-reflect:${kotlinVersion}")
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:${kotlinVersion}")
     annotationProcessor("io.micronaut.serde:micronaut-serde-processor")
@@ -32,7 +35,7 @@ dependencies {
 
 
 application {
-    mainClass = "api.ApplicationKt"
+    mainClass = "com.ryougi.api.ApplicationKt"
 }
 java {
     sourceCompatibility = JavaVersion.toVersion("21")

@@ -1,4 +1,4 @@
-package hello
+package com.ryougi.hello
 
 import io.micronaut.http.annotation.Controller
 import io.micronaut.http.annotation.Get
@@ -14,10 +14,10 @@ import org.slf4j.LoggerFactory
 import com.fasterxml.jackson.annotation.JsonProperty
 import jakarta.inject.Inject
 
-import hello.HelloService
-import hello.Data
+import com.ryougi.hello.HelloService
+import com.ryougi.hello.Data
 
-@Controller("/")
+@Controller("/v1/hello")
 class HelloController(val service: HelloService){
     companion object {
         @JvmField val LOG = LoggerFactory.getLogger(HelloController::class.java)

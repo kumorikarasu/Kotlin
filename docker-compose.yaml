@@ -1,17 +1,18 @@
-# Compose file to run postgres db
+# Compose file to run scylladb
 version: '3.1'
 
 services:
-  db:
-    image: postgres
-    restart: always
-    environment:
-      POSTGRES_DB: mydb
+  scylla:
+    image: scylladb/scylla:4.4.0
+    container_name: scylla
     ports:
-      - "5432:5432"
+      - "9042:9042"
     volumes:
-      - ./data:/var/lib/postgresql/data
+      - ./data:/var/lib/scylla
+    environment:
+      - SCYLLA_CLUSTER_NAME=scylla
+      - SCYLLA_SEEDS=
 
 volumes:
   data:
-
+    driver: local

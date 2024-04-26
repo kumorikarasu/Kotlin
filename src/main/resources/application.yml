@@ -8,3 +8,18 @@ micronaut:
         log-format: common
   application:
     name: api
+
+cassandra:
+  default:
+    advanced:
+      metadata:
+        schema:
+          enabled: false
+    basic:
+      session-keyspace: "hello"
+      contact-points:
+        - "127.0.0.1:9042"
+        - "127.0.0.2:8042"
+        - "192.168.1.11:9042"
+      load-balancing-policy:
+        local-datacenter: datacenter1

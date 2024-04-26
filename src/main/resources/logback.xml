@@ -1,5 +1,5 @@
 <configuration>
-    <logger name="api" level="trace" />
+    <logger name="com.ryougi" level="debug" />
 
     <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
         <!-- encoders are assigned the type

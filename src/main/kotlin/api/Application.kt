@@ -1,4 +1,4 @@
-package api
+package com.ryougi.api
 
 import io.micronaut.runtime.Micronaut.run
 
