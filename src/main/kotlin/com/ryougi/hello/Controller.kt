@@ -30,7 +30,7 @@ class HelloController(val service: HelloService){
     }
 
     @Get("/{id}")
-    fun index(id: Int): Map<String, Any?> {
+    fun index(id: String): Map<String, Any?> {
         LOG.info("Get request for id: {}", id)
 
         return mapOf("hello" to service.getOne(id))
@@ -43,14 +43,14 @@ class HelloController(val service: HelloService){
     }
 
     @Patch("/{id}")
-    fun indexPatch(id: Int, @Body insert: Data): Map<String, Any?> {
+    fun indexPatch(id: String, @Body insert: Data): Map<String, Any?> {
         LOG.info("Patch request for id: {}", id)
 
         return mapOf("hello" to service.update(id, insert))
     }
 
     @Delete("/{id}")
-    fun indexDelete(id: Int): Map<String, Any?> {
+    fun indexDelete(id: String): Map<String, Any?> {
         LOG.info("Delete request for id: {}", id)
 
         return mapOf("hello" to service.delete(id))

@@ -32,7 +32,7 @@ class HelloService() {
     return data;
   }
 
-  fun getOne(id: Int): Data? {
+  fun getOne(id: String): Data? {
     val data =
     cqlSession.execute("SELECT * FROM hello WHERE id = $id").map { row ->
       Data(row.getUuid("id"), row.getString("name")!!)
@@ -46,14 +46,14 @@ class HelloService() {
     return Data(uuid, insert.name)
   }
 
-  fun update(id: Int, insert: Data): Data? {
+  fun update(id: String, insert: Data): Data? {
 
     LOG.info("UPDATE hello SET name = '${insert.name}' WHERE id=$id")
     cqlSession.execute("UPDATE hello SET name = '${insert.name}' WHERE id=$id")
     return getOne(id)
   }
 
-  fun delete(id: Int): Data? {
+  fun delete(id: String): Data? {
     var data = getOne(id)
     cqlSession.execute("DELETE FROM hello WHERE id = ${id}")
     return data
